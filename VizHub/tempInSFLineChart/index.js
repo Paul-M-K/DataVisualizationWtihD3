@@ -60,11 +60,15 @@ const render = data => {
         .attr('fill', 'black')
         .text(xAxisLabel);
 
-    g.selectAll('circle').data(data)
-        .enter().append('circle')
-            .attr('cy', d => yScale(yValue(d)))
-            .attr('cx', d => xScale(xValue(d)))
-            .attr('r', circleRadius);
+    const lineGenerator = d3.line()
+        .x(d => xScale(xValue(d)))
+        .y(d => yScale(yValue(d)))
+        .curve(d3.curveBasis);
+
+    g.append('path')
+        .attr('class', 'line-path')
+        .attr('stroke','black')
+        .attr('d', lineGenerator(data));
     
     g.append('text')
         .attr('class','title')
