@@ -4,8 +4,8 @@ body{
 }
 
 circle {
-    fill: red;
-    opacity: 0.3;
+    fill: steelblue;
+    opacity: 1;
 }
 
 text {
@@ -27,6 +27,6 @@ text {
 }
 
 .title {
-    font-size: 3.7em;
+    font-size: 3em;
     fill: #635F5D;   
 }

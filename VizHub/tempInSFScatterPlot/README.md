@@ -1,1 +1,1 @@
-This scatter plot shows data about cars, from [UCI Machine learning repository: Auto MPG Data Set](http://mlr.cs.umass.edu/ml/datasets/Auto+MPG)
+This scatter plot is created using Temperature in San Francisco over a week from [Data Canvas - Sense Your City](https://grayarea.org/initiative/data-canvas-sense-your-city/)

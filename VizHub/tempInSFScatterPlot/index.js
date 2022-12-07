@@ -4,24 +4,24 @@ const width = +svg.attr('width');
 const height = +svg.attr('height');
 
 const render = data => {
-    const xValue = d => d.horsepower;
-    const xAxisLabel = 'Horsepower';
-    const yValue = d => d.weight;
-    const yAxisLabel = 'Weight';
-    const circleRadius = 10;
-    const title = 'Cars: Horsepower vs Weight'
+    const xValue = d => d.timestamp;
+    const xAxisLabel = 'Time';
+    const yValue = d => d.temperature;
+    const yAxisLabel = 'Temperature';
+    const circleRadius = 5;
+    const title = 'San Fransico: Temperature vs Time'
     const margin = { top: 60, right: 40, bottom:88, left:150};
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
-    const xScale = d3.scaleLinear()
+    const xScale = d3.scaleTime()
         .domain(d3.extent(data, xValue))
         .range([0,innerWidth])
         .nice();
 
     const yScale = d3.scaleLinear()
         .domain(d3.extent(data, yValue))
-        .range([0, innerHeight])
+        .range([innerHeight,0])
         .nice();
 
     const g = svg.append('g')
@@ -72,19 +72,12 @@ const render = data => {
         .text(title);
 };
 
-d3.csv('https://vizhub.com/curran/datasets/auto-mpg.csv')
+d3.csv('https://vizhub.com/curran/datasets/temperature-in-san-francisco.csv')
     .then(data => {
         data.forEach(d => {
-        d.mpg = +d.mpg;
-        d.cylinders = +d.cylinders;
-        d.displacement = +d.displacement;
-        d.horsepower = +d.horsepower;
-        d.weight = +d.weight;
-        d.acceleration = +d.acceleration;
-        d.year = +d.year;
+        d.temperature = +d.temperature;
+        d.timestamp = new Date(d.timestamp);
     })
-
-    console.log(data);
     render(data);
 });
 
