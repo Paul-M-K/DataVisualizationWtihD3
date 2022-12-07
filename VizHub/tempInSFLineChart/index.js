@@ -10,7 +10,7 @@ const render = data => {
     const yAxisLabel = 'Temperature';
     const circleRadius = 5;
     const title = 'San Fransico: Temperature vs Time'
-    const margin = { top: 60, right: 40, bottom:88, left:105};
+    const margin = { top: 60, right: 40, bottom:88, left:150};
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
@@ -41,7 +41,7 @@ const render = data => {
 
     yAxisG.append('text')
             .attr('class','axis-label')
-            .attr('y', -60)
+            .attr('y', -93)
             .attr('x', -innerHeight /2)
             .attr('fill', 'black')
             .attr('transform',`rotate(-90)`)
