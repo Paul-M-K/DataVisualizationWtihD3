@@ -12,12 +12,13 @@ const render = data => {
 
     const xScale = d3.scaleLinear()
         .domain([0, d3.max(data, xValue)])
-        .range([0,innerWidth]);
+        .range([0,innerWidth])
+        .nice();
 
-    const yScale = d3.scaleBand()
+    const yScale = d3.scalePoint()
         .domain(data.map(yValue))
         .range([0, innerHeight])
-        .padding(0.1);
+        .padding(0.7);
 
     const g = svg.append('g')
         .attr('transform',`translate(${margin.left},${margin.top})`);
@@ -30,9 +31,12 @@ const render = data => {
         .tickFormat(xAxisTickFormat)
         .tickSize(-innerHeight);
 
+    const yAxis = d3.axisLeft(yScale)
+        .tickSize(-innerWidth);
+
     g.append('g')
-        .call(d3.axisLeft(yScale))
-        .selectAll('.domain, .tick line')
+        .call(yAxis)
+        .selectAll('.domain')
             .remove();
 
     const xAxisG = g.append('g').call(xAxis)
@@ -47,11 +51,11 @@ const render = data => {
         .attr('fill', 'black')
         .text('Population');
 
-    g.selectAll('rect').data(data)
-        .enter().append('rect')
-            .attr('y', d => yScale(yValue(d)))
-            .attr('width', d => xScale(xValue(d)))
-            .attr('height', yScale.bandwidth());
+    g.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('r', 18);
     
     g.append('text')
         .attr('class','title')
