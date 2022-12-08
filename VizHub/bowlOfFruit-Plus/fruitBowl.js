@@ -10,23 +10,27 @@ const xPosition = (d,i) => i * 120 + 60;
 
 export const fruitBowl = (selection, props) => {
     const { fruits, height } = props
-    //Use data join to create a circle for each apple.
+    
     const circles = selection.selectAll('circle')
-        .data(fruits,d => d.id);
-        
+        .data(fruits);
     circles
         .enter().append('circle')
             .attr('cx', xPosition)
             .attr('cy',height / 2)
-            .attr('r',0)
         .merge(circles)
-            .attr('fill',d => colorScale(d.type))
-        .transition().duration(1000)
-            .attr('cx', xPosition)
-            .attr('r', d => radiusScale(d.type));
+            .attr('r', d => radiusScale(d.type))
+            .attr('fill',d => colorScale(d.type));
+    circles.exit().remove();
 
-    circles.exit()
-        .transition().duration(1000)
-            .attr('r',0)
-        .remove();
+    const text = selection.selectAll('circle')
+        .data(fruits);
+    circles
+        .enter().append('circle')
+            .attr('cx', xPosition)
+            .attr('cy',height / 2)
+        .merge(circles)
+            .attr('r', d => radiusScale(d.type))
+            .attr('fill',d => colorScale(d.type));
+    circles.exit().remove();
 }
+
