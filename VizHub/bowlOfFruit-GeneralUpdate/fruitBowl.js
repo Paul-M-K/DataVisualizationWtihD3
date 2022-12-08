@@ -12,7 +12,7 @@ export const fruitBowl = (selection, props) => {
     const { fruits, height } = props
     //Use data join to create a circle for each apple.
     const circles = selection.selectAll('circle')
-        .data(fruits,d => d.id);
+        .data(fruits, d => d.id);
         
     circles
         .enter().append('circle')
