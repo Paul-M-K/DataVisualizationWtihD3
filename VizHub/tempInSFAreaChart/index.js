@@ -16,8 +16,7 @@ const render = data => {
 
     const xScale = d3.scaleTime()
         .domain(d3.extent(data, xValue))
-        .range([0,innerWidth])
-        .nice();
+        .range([0,innerWidth]);
 
     const yScale = d3.scaleLinear()
         .domain(d3.extent(data, yValue))
@@ -28,6 +27,7 @@ const render = data => {
         .attr('transform',`translate(${margin.left},${margin.top})`);
     
     const xAxis = d3.axisBottom(xScale)
+        .ticks(6)
         .tickSize(-innerHeight)
         .tickPadding(15);
 
@@ -60,15 +60,16 @@ const render = data => {
         .attr('fill', 'black')
         .text(xAxisLabel);
 
-    const lineGenerator = d3.line()
+    const areaGenerator = d3.area()
         .x(d => xScale(xValue(d)))
-        .y(d => yScale(yValue(d)))
+        .y0(innerHeight)
+        .y1(d => yScale(yValue(d)))
         .curve(d3.curveBasis);
 
     g.append('path')
         .attr('class', 'line-path')
         .attr('stroke','black')
-        .attr('d', lineGenerator(data));
+        .attr('d', areaGenerator(data));
     
     g.append('text')
         .attr('class','title')

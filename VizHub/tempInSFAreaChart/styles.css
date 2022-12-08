@@ -8,6 +8,10 @@ circle {
     opacity: 1;
 }
 
+.line-path {
+    fill: maroon;
+}
+
 text {
     font-family: sans-serif ;
 }
@@ -31,9 +35,4 @@ text {
     fill: #635F5D;   
 }
 
-.line-path {
-    fill: none;
-    stroke: maroon;
-    stroke-width: 5;
-    stroke-linejoin: round;
-}
+
