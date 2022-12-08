@@ -4,22 +4,23 @@ const width = +svg.attr('width');
 const height = +svg.attr('height');
 
 const render = data => {
-    const xValue = d => d.timestamp;
-    const xAxisLabel = 'Time';
-    const yValue = d => d.temperature;
-    const yAxisLabel = 'Temperature';
+    const xValue = d => d.year;
+    const xAxisLabel = 'Year';
+    const yValue = d => d.population;
+    const yAxisLabel = 'Population';
     const circleRadius = 5;
-    const title = 'San Fransico: Temperature vs Time'
+    const title = 'World Population'
     const margin = { top: 60, right: 40, bottom:88, left:150};
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
     const xScale = d3.scaleTime()
         .domain(d3.extent(data, xValue))
-        .range([0,innerWidth]);
+        .range([0,innerWidth])
+        .nice();
 
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, yValue))
+        .domain([0,d3.max(data, yValue)])
         .range([innerHeight,0])
         .nice();
 
@@ -31,9 +32,14 @@ const render = data => {
         .tickSize(-innerHeight)
         .tickPadding(15);
 
+    const yAxisTickFormat = number =>
+        d3.format('.1s')(number)
+            .replace('G','B');
+
     const yAxis = d3.axisLeft(yScale)
         .tickSize(-innerWidth)
-        .tickPadding(10);
+        .tickPadding(10)
+        .tickFormat(yAxisTickFormat);
 
     const yAxisG = g.append('g').call(yAxis);
 
@@ -71,17 +77,19 @@ const render = data => {
         .attr('stroke','black')
         .attr('d', areaGenerator(data));
     
-    g.append('text')
+    svg.append('text')
         .attr('class','title')
-        .attr('y', -10)
+        .attr('x', width / 2)
+        .attr('y', 45)
         .text(title);
 };
 
-d3.csv('https://vizhub.com/curran/datasets/temperature-in-san-francisco.csv')
+d3.csv('https://vizhub.com/curran/datasets/world-population-by-year-2015.csv')
     .then(data => {
         data.forEach(d => {
-        d.temperature = +d.temperature;
-        d.timestamp = new Date(d.timestamp);
+        console.log(data);  
+        d.population = +d.population;
+        d.year = new Date(d.year);
     })
     render(data);
 });

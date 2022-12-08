@@ -32,7 +32,7 @@ text {
 
 .title {
     font-size: 3em;
-    fill: #635F5D;   
+    fill: #635F5D;
+    text-anchor: middle;
 }
-
 
