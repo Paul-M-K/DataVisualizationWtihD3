@@ -1,98 +1,72 @@
+// Delcare SVG and its Color
 const svg = d3.select('svg');
+svg.style('background-color', '#212529');
+
+//Declare constanst.
+const barColor = '#272B2F';
+const barCorner = 10
 
 const width = +svg.attr('width');
 const height = +svg.attr('height');
 
-const render = data => {
-    const xValue = d => d.year;
-    const xAxisLabel = 'Year';
-    const yValue = d => d.population;
-    const yAxisLabel = 'Population';
-    const circleRadius = 5;
-    const title = 'World Population'
-    const margin = { top: 60, right: 40, bottom:88, left:150};
-    const innerWidth = width - margin.left - margin.right;
-    const innerHeight = height - margin.top - margin.bottom;
+//create group for background
+const background = svg.append('g')
 
-    const xScale = d3.scaleTime()
-        .domain(d3.extent(data, xValue))
-        .range([0,innerWidth])
-        .nice();
+const makeSquares = type => ({ type })
 
-    const yScale = d3.scaleLinear()
-        .domain([0,d3.max(data, yValue)])
-        .range([innerHeight,0])
-        .nice();
+const squares = d3.range(4)
+    .map(()=>makeSquares('square'));
 
-    const g = svg.append('g')
-        .attr('transform',`translate(${margin.left},${margin.top})`);
+background.selectAll('rect').data(squares)
+    .enter().append('rect')
+        .attr('x',(d,i) => i*360 + 170)
+        .attr('y', 150)
+        .attr('rx',barCorner)
+        .attr('ry',barCorner)
+        .attr('width',width/5)
+        .attr('height',width/5)
+        .attr('fill', barColor)
+
+const test = svg.append('g')
+
+const makeRectangles = type => ({ type })
+
+const rectangles = d3.range(2)
+    .map(()=>makeRectangles('rectangles'));
+
+console.log(rectangles);
     
-    const xAxis = d3.axisBottom(xScale)
-        .ticks(6)
-        .tickSize(-innerHeight)
-        .tickPadding(15);
+test.selectAll('rect').data(rectangles)
+    .enter().append('rect')
+        .attr('x',(d,i) => i*700 + 170)
+        .attr('y', height/1.8)
+        .attr('rx',barCorner)
+        .attr('ry',barCorner)
+        .attr('width',width/2.4)
+        .attr('height',width/4.2)
+        .attr('fill', barColor)
 
-    const yAxisTickFormat = number =>
-        d3.format('.1s')(number)
-            .replace('G','B');
 
-    const yAxis = d3.axisLeft(yScale)
-        .tickSize(-innerWidth)
-        .tickPadding(10)
-        .tickFormat(yAxisTickFormat);
+//create left navigation bar.
+const leftBar = background.append('rect');
+leftBar
+    .attr('width',width/12)
+    .attr('height',height)
+    .attr('fill', barColor);
 
-    const yAxisG = g.append('g').call(yAxis);
+// //Create firstBar 
+// const firstBar = background.append('rect');
+// firstBar
+//     .attr('x',180)
+//     .attr('y',220)
+//     .attr('rx',barCorner)
+//     .attr('ry',barCorner)
+//     .attr('width',width/5)
+//     .attr('height',width/5)
+//     .attr('fill', barColor);
 
-    yAxisG.selectAll('.domain').remove();
 
-    yAxisG.append('text')
-            .attr('class','axis-label')
-            .attr('y', -93)
-            .attr('x', -innerHeight /2)
-            .attr('fill', 'black')
-            .attr('transform',`rotate(-90)`)
-            .attr('text-anchor','middle')
-            .text(yAxisLabel);
 
-    const xAxisG = g.append('g').call(xAxis)
-        .attr('transform',`translate(0,${innerHeight})`);
-    
-    xAxisG.select('.domain').remove();
-
-    xAxisG.append('text')
-        .attr('class','axis-label')
-        .attr('y', 75)
-        .attr('x',innerWidth/2)
-        .attr('fill', 'black')
-        .text(xAxisLabel);
-
-    const areaGenerator = d3.area()
-        .x(d => xScale(xValue(d)))
-        .y0(innerHeight)
-        .y1(d => yScale(yValue(d)))
-        .curve(d3.curveBasis);
-
-    g.append('path')
-        .attr('class', 'line-path')
-        .attr('stroke','black')
-        .attr('d', areaGenerator(data));
-    
-    svg.append('text')
-        .attr('class','title')
-        .attr('x', width / 2)
-        .attr('y', 45)
-        .text(title);
-};
-
-d3.csv('https://vizhub.com/curran/datasets/world-population-by-year-2015.csv')
-    .then(data => {
-        data.forEach(d => {
-        console.log(data);  
-        d.population = +d.population;
-        d.year = new Date(d.year);
-    })
-    render(data);
-});
 
 
 
