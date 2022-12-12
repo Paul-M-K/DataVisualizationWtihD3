@@ -4,7 +4,7 @@ svg.style('background-color', '#212529');
 
 //Declare constanst.
 const barColor = '#272B2F';
-const barCorner = 30
+const barCorner = 15;
 
 const width = +svg.attr('width');
 const height = +svg.attr('height');
@@ -28,12 +28,12 @@ const squares = d3.range(4)
 // sized monitors / resolutions
 backgroundSquars.selectAll('rect').data(squares)
     .enter().append('rect')
-        .attr('x',(d,i) => i*width/4.42 + width/10.5)
+        .attr('x', (d,i) => i*width/4.42 + width/10.5)
         .attr('y', height/10)
-        .attr('rx',barCorner)
-        .attr('ry',barCorner)
-        .attr('width',width/4.65)
-        .attr('height',width/5)
+        .attr('rx', barCorner)
+        .attr('ry', barCorner)
+        .attr('width', width/4.65)
+        .attr('height', width/5)
         .attr('fill', barColor);
 
 // =======================================//
@@ -48,27 +48,33 @@ const rectangles = d3.range(2)
     
 backgroundRect.selectAll('rect').data(rectangles)
     .enter().append('rect')
-        .attr('x',(d,i) => i*width/2.21 + width/10.5)
+        .attr('x', (d,i) => i*width/2.21 + width/10.5)
         .attr('y', height / 2.1 )
-        .attr('rx',barCorner)
-        .attr('ry',barCorner)
-        .attr('width',width/2.27)
-        .attr('height',height/1.98)
+        .attr('rx', barCorner)
+        .attr('ry', barCorner)
+        .attr('width', width/2.27)
+        .attr('height', height/1.98)
         .attr('fill', barColor)
 
 
 //create left navigation bar.
 const leftBar = backgroundSquars.append('rect')
-    .attr('width',width/12)
-    .attr('height',height)
+    .attr('width', width/12)
+    .attr('height', height)
     .attr('fill', barColor);
 
 const title = backgroundSquars.append('text')
-    .attr('class','itma-title')
-    .attr('x',width/10.5)
-    .attr('y',height/18)
+    .attr('class', 'itma-title')
+    .attr('x', width/10.5)
+    .attr('y', height/18)
     .text('Canadian Forces Personel Overview')
-    .style('font-size',height/18);
+    .style('font-size', height/18);
+
+
+// load in data
+d3.csv('data.csv').then(data => {
+    console.log(data);
+});
 
 
 
