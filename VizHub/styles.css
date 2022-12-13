@@ -16,11 +16,11 @@ text {
     font-family: sans-serif ;
 }
 
-.tick text {
-    font-size: 2.7em;
+
+.bar-chart text{
+    font-size: 2em;
     fill: #635F5D;
 }
-
 .tick line {
     stroke: #C0C0BB;
 }
@@ -39,5 +39,9 @@ text {
 .itma-title{
     fill: #8E8883;
     font-family; sans-serif;
+}
+
+.bar-chart {
+    fill: slategray;
 }
 
